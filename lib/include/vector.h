@@ -51,8 +51,11 @@ namespace Vector
         CVector<T>  operator- (const CVector<T>& rhs);
         CVector<T>& operator-=(const CVector<T>& rhs);
 
-        CVector<T>  operator* (const CVector<T>& rhs);
-        CVector<T>& operator*=(const CVector<T>& rhs);
+        T           operator* (const CVector<T>& rhs); // scalar product
+        T&          operator*=(const CVector<T>& rhs); // scalar product
+
+        CVector<T>  operator^ (const CVector<T>& rhs); // cross product
+        CVector<T>& operator^=(const CVector<T>& rhs); // cross product
 
         // ================================================
         // FUNCTIONS
@@ -60,7 +63,11 @@ namespace Vector
 
         const size_t getDim() { return m_dim; }
         
-        const EVectorTypes getType() { return m_type; } 
+        const EVectorTypes getType() { return m_type; }
+
+        // ================================================
+        // MATHEMATICAL FUNCTIONS
+        // ================================================
 
     };
 

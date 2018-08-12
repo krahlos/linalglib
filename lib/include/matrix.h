@@ -66,6 +66,10 @@ namespace Matrix
         
         const EMatrixTypes getType() { return m_type; }
 
+        // ================================================
+        // MATHEMATICAL FUNCTIONS
+        // ================================================
+
     };
     
     

@@ -1,2 +1,7 @@
 
+# System
 .vscode/*
+
+# Repo excludes
+build/*
+bin/*

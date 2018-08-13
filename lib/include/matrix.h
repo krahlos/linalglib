@@ -22,7 +22,7 @@ namespace Matrix
     {
         private:
         
-        T       *m_ptValues;
+        T       **m_ptValues;
         size_t  m_totalSize;
         size_t  m_rows;
         size_t  m_cols;
@@ -35,18 +35,23 @@ namespace Matrix
         // CONSTRUCTORS AND DESTRUCTORS
         // ================================================
 
-        CMatrix(size_t r, size_t c); // default constructor
-        CMatrix(EMatrixTypes type, size_t n) // constructor for special type matrix
+        // Default Constructor
+        CMatrix(size_t r, size_t c);
+        // Constructor for special type Matrix
+        CMatrix(EMatrixTypes type, size_t n)
 
-        CMatrix(const CMatrix<T> &rhs); // copy constructor
+        // Copy Constructor
+        CMatrix(const CMatrix<T> &rhs);
 
-        ~CMatrix(); // destructor
+        // Destructor
+        ~CMatrix();
 
         // ================================================
         // OPERATORS
         // ================================================
 
-        CMatrix<T>& operator= (const CMatrix<T>& rhs); // copy assignment operator
+        // copy assignment operator
+        CMatrix<T>& operator= (const CMatrix<T>& rhs);
 
         CMatrix<T>  operator+ (const CMatrix<T>& rhs);
         CMatrix<T>& operator+=(const CMatrix<T>& rhs);

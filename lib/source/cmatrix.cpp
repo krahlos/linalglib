@@ -1,4 +1,4 @@
-#include "matrix.h"
+#include "cmatrix.h"
 
 namespace LinAlg
 {
@@ -54,23 +54,13 @@ namespace Matrix
 
     // Copy Constructor
     template<typename T>
-    CMatrix<T>& CMatrix::operator=(const CMatrix<T>& rhs) 
+    CMatrix<T>::CMatrix(const CMatrix<T> &rhs) : 
+        m_rows(rhs.m_rows),
+        m_cols(rhs.m_cols) 
     {
-        if (&rhs == this) {
-            return *this;
-        }
-        if (m_totalSize == rhs.m_totalSize) {
-            std::memcpy(m_ptValues, rhs.m_ptValues, rhs.m_totalSize * sizeof(T));
-        } else {
-            delete[] m_ptValues;
-            m_ptValues = new T[rhs.m_totalSize]();
-            std::memcpy(m_ptValues, rhs.m_ptValues, rhs.m_totalSize * sizeof(T));
-        }
-        m_rows      = rhs.m_rows;
-        m_columns   = rhs.m_columns;
         m_totalSize = rhs.m_totalSize;
-
-        return *this;
+        m_ptValues = new T[rhs.m_totalSize]();
+        std::memcpy(m_ptValues, rhs.m_ptValues, rhs.m_totalSize * sizeof(T));
     }
 
     // Desctuctor

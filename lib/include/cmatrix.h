@@ -2,7 +2,7 @@
 #define __CMATRIX_H
 
 #include <math.h>
-#include <vector.h>
+#include <cvector.h>
 
 namespace LinAlg 
 { 

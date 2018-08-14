@@ -16,7 +16,7 @@ A playground for learning basic and enhanced concepts of C++, CMake and How-to-b
 ## <a name="build">How-to Build</a>
 
 ### Perquisites
-+ [CMake 3.8 or later](https://cmake.org/download/)
++ [CMake 3.12 or later](https://cmake.org/download/)
 + [GCC 7.1 or later](http://gcc.gnu.org/onlinedocs/)
 
 ### Build

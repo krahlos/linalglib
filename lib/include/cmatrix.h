@@ -35,7 +35,7 @@ namespace Matrix
         // CONSTRUCTORS AND DESTRUCTORS
         // ================================================
 
-        /// Default Constructor
+        // Default Constructor
         template<typename T>
         CMatrix<T>::CMatrix(size_t r, size_t c) :
             m_rows(r),

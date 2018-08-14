@@ -1,6 +1,11 @@
-cmake_minimum_required(VERSION 3.12.0)
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
-project(linalglib)
+project(linalglib 
+    VERSION 0.0.1 
+    DESCRIPTION "Library for Linear Algebra" 
+    LANGUAGES CXX)
 
-set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+set(TARGET_NAME ${PROJECT_NAME})
+ 
+add_subdirectory(lib)
+add_subdirectory(main)

@@ -1,6 +1,7 @@
 
 # System
 .vscode/*
+linalglib.code-workspace
 
 # Repo excludes
 build/*

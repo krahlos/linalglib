@@ -11,10 +11,7 @@ set(MAIN_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/source)
 
 set(MAIN_SOURCE_FILES
     ${MAIN_SOURCE_PATH}/main.cpp)
- 
-# not sure if this block is correct as it is
 
-find_package(LinAlg REQUIRED)
+add_executable(main ${MAIN_SOURCE_FILES})
 
-set(LIN_ALG_LIB “${CMAKE_SOURCE_DIR}/lib”)
-target_link_libraries(${TARGET_NAME} ${LIN_ALG_LIB}/bin/linalg.lib)
+target_link_libraries(main LinAlg)

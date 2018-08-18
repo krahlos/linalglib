@@ -6,73 +6,70 @@
 namespace LinAlg
 {
 
-namespace Vector 
+namespace Vector
 {
 
-    enum EVectorTypes
-    {
-        None = 0,
-        Zero,
-        OneHot
-    };
+enum EVectorTypes
+{
+    None = 0,
+    Zero,
+    OneHot
+};
 
-    template <typename T>
-    class CVector
-    {
-        private:
-        
-        T       *m_ptValues;
-        size_t  m_dim;
+template <typename T>
+class CVector
+{
+  private:
+    T *m_ptValues;
+    size_t m_dim;
 
-        EVectorTypes m_type;
+    EVectorTypes m_type;
 
-        public:
+  public:
+    // ================================================
+    // CONSTRUCTORS AND DESTRUCTORS
+    // ================================================
 
-        // ================================================
-        // CONSTRUCTORS AND DESTRUCTORS
-        // ================================================
+    CVector(size_t dim);                    // default constructor
+    CVector(size_t dim, EVectorTypes type); // constructor for special type vector
 
-        CVector(size_t dim); // default constructor
-        CVector(size_t dim, EVectorTypes type); // constructor for special type vector
+    CVector(const CVector<T> &rhs); // copy constructor
 
-        CVector(const CVector<T> &rhs); // copy constructor
+    ~CVector(); // destructor
 
-        ~CVector(); // destructor
+    // ================================================
+    // OPERATORS
+    // ================================================
 
-        // ================================================
-        // OPERATORS
-        // ================================================
+    CVector<T> &operator=(const CVector<T> &rhs); // copy assignment operator
 
-        CVector<T>& operator= (const CVector<T>& rhs); // copy assignment operator
+    CVector<T> operator+(const CVector<T> &rhs);
+    CVector<T> &operator+=(const CVector<T> &rhs);
 
-        CVector<T>  operator+ (const CVector<T>& rhs);
-        CVector<T>& operator+=(const CVector<T>& rhs);
+    CVector<T> operator-(const CVector<T> &rhs);
+    CVector<T> &operator-=(const CVector<T> &rhs);
 
-        CVector<T>  operator- (const CVector<T>& rhs);
-        CVector<T>& operator-=(const CVector<T>& rhs);
+    T operator*(const CVector<T> &rhs);   // scalar product
+    T &operator*=(const CVector<T> &rhs); // scalar product
 
-        T           operator* (const CVector<T>& rhs); // scalar product
-        T&          operator*=(const CVector<T>& rhs); // scalar product
+    CVector<T> operator^(const CVector<T> &rhs);   // cross product
+    CVector<T> &operator^=(const CVector<T> &rhs); // cross product
 
-        CVector<T>  operator^ (const CVector<T>& rhs); // cross product
-        CVector<T>& operator^=(const CVector<T>& rhs); // cross product
+    // ================================================
+    // FUNCTIONS
+    // ================================================
 
-        // ================================================
-        // FUNCTIONS
-        // ================================================
+    size_t getDim() { return m_dim; }
 
-        const size_t getDim() { return m_dim; }
-        
-        const EVectorTypes getType() { return m_type; }
+    EVectorTypes getType() { return m_type; }
 
-        // ================================================
-        // MATHEMATICAL FUNCTIONS
-        // ================================================
+    // ================================================
+    // MATHEMATICAL FUNCTIONS
+    // ================================================
+};
 
-    };
+} // namespace Vector
 
-} // Vector
-
-} // Linalg
+} // namespace LinAlg
 
 #endif // __CVECTOR_H

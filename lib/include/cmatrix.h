@@ -22,7 +22,7 @@ template <typename T>
 class CMatrix
 {
   private:
-    T **m_ptValues;
+    T **m_ptMatrix;
     size_t m_totalSize;
     size_t m_rows;
     size_t m_cols;
@@ -45,19 +45,19 @@ class CMatrix
                                      m_cols(rhs.m_cols)
     {
         m_totalSize = rhs.m_totalSize;
-        m_ptValues = new T[rhs.m_totalSize]();
+        m_ptMatrix = new T[rhs.m_totalSize]();
 
-        m_ptValues = malloc(m_rows * sizeof(T *));
+        m_ptMatrix = malloc(m_rows * sizeof(T *));
         for (size_t i = 0; i < m_rows; i++)
-            m_ptValues[i] = malloc(m_cols * sizeof(T));
+            m_ptMatrix[i] = malloc(m_cols * sizeof(T));
     }
 
     // Destructor
     ~CMatrix()
     {
-        if (m_ptValues)
+        if (m_ptMatrix)
         {
-            delete[] m_ptValues;
+            delete[] m_ptMatrix;
         }
     }
 
@@ -81,10 +81,10 @@ class CMatrix
     // FUNCTIONS
     // ================================================
 
-    size_t getRowDim() { return m_rows; }
-    size_t getColDim() { return m_cols; }
+    size_t getRowDim() const { return m_rows; }
+    size_t getColDim() const { return m_cols; }
 
-    EMatrixTypes getType() { return m_type; }
+    EMatrixTypes getType() const { return m_type; }
 
     // ================================================
     // MATHEMATICAL FUNCTIONS

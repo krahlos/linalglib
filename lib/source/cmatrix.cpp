@@ -17,9 +17,9 @@ CMatrix<T>::CMatrix(size_t r, size_t c) : m_rows(r),
 {
     m_totalSize = m_rows * m_cols;
 
-    m_ptValues = malloc(m_rows * sizeof(T *));
+    m_ptMatrix = malloc(m_rows * sizeof(T *));
     for (size_t i = 0; i < m_rows; i++)
-        m_ptValues[i] = malloc(m_cols * sizeof(T));
+        m_ptMatrix[i] = malloc(m_cols * sizeof(T));
 
     m_type = EMatrixTypes::None;
 }
@@ -32,9 +32,9 @@ CMatrix<T>::CMatrix(EMatrixTypes type, size_t n) : m_rows(n),
 {
     m_totalSize = m_rows * m_cols;
 
-    m_ptValues = malloc(m_rows * sizeof(T *));
+    m_ptMatrix = malloc(m_rows * sizeof(T *));
     for (size_t i = 0; i < m_rows; i++)
-        m_ptValues[i] = malloc(m_cols * sizeof(T));
+        m_ptMatrix[i] = malloc(m_cols * sizeof(T));
 
     // To Do
     switch (type)

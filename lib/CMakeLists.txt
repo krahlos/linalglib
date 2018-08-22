@@ -6,8 +6,7 @@ set(LIB_HEADER_FILES
     ${LIB_HEADER_PATH}/cvector.h)
 
 set(LIB_SOURCE_FILES
-    ${LIB_SOURCE_PATH}/cmatrix.cpp
-    ${LIB_SOURCE_PATH}/cvector.cpp)
+    ${LIB_SOURCE_PATH}/cmatrix.cpp)
 
 add_library(LinAlg ${LIB_HEADER_FILES} ${LIB_SOURCE_FILES})
 

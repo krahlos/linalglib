@@ -2,6 +2,8 @@
 #define __CVECTOR_H
 
 #include <math.h>
+#include <iostream>
+#include <string>
 
 namespace LinAlg
 {
@@ -16,32 +18,64 @@ enum EVectorTypes
   OneHot
 };
 
+enum EVectorNorms
+{
+  L1 = 1,
+  L2,
+  // Lp, Todo: Find good solution for p-Norm
+  MaxNorm
+};
+
 template <typename T>
 class CVector
 {
 private:
-  T *m_ptMatrix;
+  // ================================================
+  // [PRIVATE] FUNCTIONS
+  // ================================================
+
+  // ================================================
+  // [PRIVATE] MEMBER
+  // ================================================
+
+  T *m_ptVector;
   size_t m_dim;
 
   EVectorTypes m_type;
 
 public:
   // ================================================
-  // CONSTRUCTORS AND DESTRUCTORS
+  // [PUBLIC] CONSTRUCTORS AND DESTRUCTORS
   // ================================================
 
-  CVector(size_t dim);                    // default constructor
-  CVector(size_t dim, EVectorTypes type); // constructor for special type vector
+  // Default Constructor
+  CVector(size_t dim);
 
-  CVector(const CVector<T> &rhs); // copy constructor
+  /* TO DO
+  // Constructor for special type Vector
+  CVector(size_t dim, EVectorTypes type);
+  */
 
-  ~CVector(); // destructor
+  // Constructor to initialize the Vector directly
+  CVector(T &ptVector, size_t dim);
+
+  // Copy Constructor
+  CVector(const CVector<T> &rhs);
+
+  // Destructor
+  ~CVector();
 
   // ================================================
-  // OPERATORS
+  // [PUBLIC] OPERATORS
   // ================================================
 
   CVector<T> &operator=(const CVector<T> &rhs); // copy assignment operator
+
+  T &operator()(size_t idx);
+  T operator()(size_t idx) const;
+
+  bool operator==(const CVector<T> &rhs) const;
+  bool operator!=(const CVector<T> &rhs) const;
 
   CVector<T> operator+(const CVector<T> &rhs);
   CVector<T> &operator+=(const CVector<T> &rhs);
@@ -49,23 +83,35 @@ public:
   CVector<T> operator-(const CVector<T> &rhs);
   CVector<T> &operator-=(const CVector<T> &rhs);
 
-  T operator*(const CVector<T> &rhs);   // scalar product
-  T &operator*=(const CVector<T> &rhs); // scalar product
+  T operator*(const CVector<T> &rhs);   // scalar / dot product
+
+  CVector<T> &operator*(const T &rhs); // scaling
 
   CVector<T> operator^(const CVector<T> &rhs);   // cross product
   CVector<T> &operator^=(const CVector<T> &rhs); // cross product
 
   // ================================================
-  // FUNCTIONS
+  // [PUBLIC] FUNCTIONS
   // ================================================
 
   size_t getDim() const { return m_dim; }
 
   EVectorTypes getType() const { return m_type; }
 
+  void show();
+  std::string toString();
+
+  void set_value(size_t idx, T value);
+
   // ================================================
-  // MATHEMATICAL FUNCTIONS
+  // [PUBLIC] MATHEMATICAL FUNCTIONS
   // ================================================
+
+  T norm(EVectorNorms norm);
+
+  float angle_to(const CVector<T> &rhs);
+
+  bool is_orthogonal_to(const CVector<T> &rhs);
 };
 
 } // namespace Vector

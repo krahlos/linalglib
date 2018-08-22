@@ -57,12 +57,12 @@ CVector<T>::CVector(T &ptVector, size_t dim) : m_dim(dim)
 
 // copy assignment operator
 template <typename T>
-CVector<T> &CVector<T>::operator=(const CVector<T> &rhs)
+CVector<T> &CVector<T>::operator=(const CVector<T> &vec)
 {
-    if(this != &rhs)
+    if(this != &vec)
     {
         delete [] m_ptVector;
-        copy(rhs);
+        copy(vec);
     }
 
     return *this;
@@ -87,16 +87,16 @@ T CVector<T>::operator()(size_t idx) const
 }
 
 template <typename T>
-bool CVector<T>::operator==(const CVector<T> &rhs) const
+bool CVector<T>::operator==(const CVector<T> &vec) const
 {
-    if ((m_dim != rhs.m_dim))
+    if ((m_dim != vec.m_dim))
     {
         return false;
     }
 
     for (size_t i = 0; i < m_dim; i++)
     {
-        if (m_ptVector[i] != rhs.m_ptVector[i])
+        if (m_ptVector[i] != vec.m_ptVector[i])
         {
             return false;
         }
@@ -106,66 +106,66 @@ bool CVector<T>::operator==(const CVector<T> &rhs) const
 }
 
 template <typename T>
-bool CVector<T>::operator!=(const CVector<T> &rhs) const
+bool CVector<T>::operator!=(const CVector<T> &vec) const
 {
-    return !((*this) == rhs);
+    return !((*this) == vec);
 }
 
 template <typename T>
-CVector<T> CVector<T>::operator+(const CVector<T> &rhs)
+CVector<T> CVector<T>::operator+(const CVector<T> &vec)
 {
-    if (m_dim != rhs.m_dim)
+    if (m_dim != vec.m_dim)
         throw std::range_error("Dimensions must be the same");
 
     CVector<T> tmp(*this);
 
     for(size_t i = 0; i < m_dim; i++)
     {
-        tmp.m_ptVector[i] += rhs.m_ptVector[i];
+        tmp.m_ptVector[i] += vec.m_ptVector[i];
     }
 
     return tmp;
 }
 
 template <typename T>
-CVector<T> &CVector<T>::operator+=(const CVector<T> &rhs)
+CVector<T> &CVector<T>::operator+=(const CVector<T> &vec)
 {
-    if (m_dim != rhs.m_dim)
+    if (m_dim != vec.m_dim)
         throw std::range_error("Dimensions must be the same");
     
     for(size_t i = 0; i < m_dim; i++)
     {
-        m_ptVector[i] += rhs.m_ptVector[i];
+        m_ptVector[i] += vec.m_ptVector[i];
     }
 
     return *this;
 }
 
 template <typename T>
-CVector<T> CVector<T>::operator-(const CVector<T> &rhs)
+CVector<T> CVector<T>::operator-(const CVector<T> &vec)
 {
-    if (m_dim != rhs.m_dim)
+    if (m_dim != vec.m_dim)
         throw std::range_error("Dimensions must be the same");
 
     CVector<T> tmp(*this);
 
     for(size_t i = 0; i < m_dim; i++)
     {
-        tmp.m_ptVector[i] -= rhs.m_ptVector[i];
+        tmp.m_ptVector[i] -= vec.m_ptVector[i];
     }
 
     return tmp;
 }
 
 template <typename T>
-CVector<T> &CVector<T>::operator-=(const CVector<T> &rhs)
+CVector<T> &CVector<T>::operator-=(const CVector<T> &vec)
 {
-    if (m_dim != rhs.m_dim)
+    if (m_dim != vec.m_dim)
         throw std::range_error("Dimensions must be the same");
     
     for(size_t i = 0; i < m_dim; i++)
     {
-        m_ptVector[i] -= rhs.m_ptVector[i];
+        m_ptVector[i] -= vec.m_ptVector[i];
     }
 
     return *this;
@@ -173,53 +173,53 @@ CVector<T> &CVector<T>::operator-=(const CVector<T> &rhs)
 
 // scalar / dot product
 template <typename T>
-T CVector<T>::operator*(const CVector<T> &rhs)
+T CVector<T>::operator*(const CVector<T> &vec)
 {
-    if (m_dim != rhs.m_dim)
+    if (m_dim != vec.m_dim)
         throw std::range_error("Dimensions must be the same");
     
     T product(0.0);
 
     for (size_t i = 0; i < m_dim; i++)
-        product += m_ptVector[i] * rhs.m_ptVector[i];
+        product += m_ptVector[i] * vec.m_ptVector[i];
 
     return product;
 }
 
 // scaling
 template <typename T>
-CVector<T> &CVector<T>::operator*(const T &rhs)
+CVector<T> &CVector<T>::operator*(const T &vec)
 {
     for (size_t i = 0; i < m_dim; i++)
-        m_ptVector[i] = rhs * m_ptVector[i];
+        m_ptVector[i] = vec * m_ptVector[i];
 
     return *this;
 }
 
 template <typename T>
-CVector<T> CVector<T>::operator^(const CVector<T> &rhs)
+CVector<T> CVector<T>::operator^(const CVector<T> &vec)
 {
-    if (m_dim != 3 || rhs.m_dim != 3)
+    if (m_dim != 3 || vec.m_dim != 3)
         throw std::range_error("Only defined for 3D vectors");
     
     CVector<T> tmp(*this);
 
-    tmp.m_ptVector[0] = tmp.m_ptVector[2]*rhs.m_ptVector[3] - tmp.rhs.m_ptVector[3]*m_ptVector[2];
-    tmp.m_ptVector[1] = tmp.m_ptVector[3]*rhs.m_ptVector[1] - tmp.rhs.m_ptVector[1]*m_ptVector[3];
-    tmp.m_ptVector[2] = tmp.m_ptVector[1]*rhs.m_ptVector[2] - tmp.rhs.m_ptVector[2]*m_ptVector[1];
+    tmp.m_ptVector[0] = tmp.m_ptVector[2]*vec.m_ptVector[3] - tmp.vec.m_ptVector[3]*m_ptVector[2];
+    tmp.m_ptVector[1] = tmp.m_ptVector[3]*vec.m_ptVector[1] - tmp.vec.m_ptVector[1]*m_ptVector[3];
+    tmp.m_ptVector[2] = tmp.m_ptVector[1]*vec.m_ptVector[2] - tmp.vec.m_ptVector[2]*m_ptVector[1];
 
     return tmp;
 }
 
 template <typename T>
-CVector<T> &CVector<T>::operator^=(const CVector<T> &rhs)
+CVector<T> &CVector<T>::operator^=(const CVector<T> &vec)
 {
-    if (m_dim != 3 || rhs.m_dim != 3)
+    if (m_dim != 3 || vec.m_dim != 3)
         throw std::range_error("Only defined for 3D vectors");
     
-    m_ptVector[0] = m_ptVector[2]*rhs.m_ptVector[3] - rhs.m_ptVector[3]*m_ptVector[2];
-    m_ptVector[1] = m_ptVector[3]*rhs.m_ptVector[1] - rhs.m_ptVector[1]*m_ptVector[3];
-    m_ptVector[2] = m_ptVector[1]*rhs.m_ptVector[2] - rhs.m_ptVector[2]*m_ptVector[1];
+    m_ptVector[0] = m_ptVector[2]*vec.m_ptVector[3] - vec.m_ptVector[3]*m_ptVector[2];
+    m_ptVector[1] = m_ptVector[3]*vec.m_ptVector[1] - vec.m_ptVector[1]*m_ptVector[3];
+    m_ptVector[2] = m_ptVector[1]*vec.m_ptVector[2] - vec.m_ptVector[2]*m_ptVector[1];
 
     return *this;
 }

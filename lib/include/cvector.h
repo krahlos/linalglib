@@ -60,7 +60,7 @@ public:
   CVector(T &ptVector, size_t dim);
 
   // Copy Constructor
-  CVector(const CVector<T> &rhs);
+  CVector(const CVector<T> &vec);
 
   // Destructor
   ~CVector();
@@ -69,26 +69,26 @@ public:
   // [PUBLIC] OPERATORS
   // ================================================
 
-  CVector<T> &operator=(const CVector<T> &rhs); // copy assignment operator
+  CVector<T> &operator=(const CVector<T> &vec); // copy assignment operator
 
   T &operator()(size_t idx);
   T operator()(size_t idx) const;
 
-  bool operator==(const CVector<T> &rhs) const;
-  bool operator!=(const CVector<T> &rhs) const;
+  bool operator==(const CVector<T> &vec) const;
+  bool operator!=(const CVector<T> &vec) const;
 
-  CVector<T> operator+(const CVector<T> &rhs);
-  CVector<T> &operator+=(const CVector<T> &rhs);
+  CVector<T> operator+(const CVector<T> &vec);
+  CVector<T> &operator+=(const CVector<T> &vec);
 
-  CVector<T> operator-(const CVector<T> &rhs);
-  CVector<T> &operator-=(const CVector<T> &rhs);
+  CVector<T> operator-(const CVector<T> &vec);
+  CVector<T> &operator-=(const CVector<T> &vec);
 
-  T operator*(const CVector<T> &rhs);   // scalar / dot product
+  T operator*(const CVector<T> &vec);   // scalar / dot product
 
-  CVector<T> &operator*(const T &rhs); // scaling
+  CVector<T> &operator*(const T &vec); // scaling
 
-  CVector<T> operator^(const CVector<T> &rhs);   // cross product
-  CVector<T> &operator^=(const CVector<T> &rhs); // cross product
+  CVector<T> operator^(const CVector<T> &vec);   // cross product
+  CVector<T> &operator^=(const CVector<T> &vec); // cross product
 
   // ================================================
   // [PUBLIC] FUNCTIONS
@@ -109,9 +109,9 @@ public:
 
   T norm(EVectorNorms norm);
 
-  float angle_to(const CVector<T> &rhs);
+  float angle_to(const CVector<T> &vec);
 
-  bool is_orthogonal_to(const CVector<T> &rhs);
+  bool is_orthogonal_to(const CVector<T> &vec);
 };
 
 } // namespace Vector

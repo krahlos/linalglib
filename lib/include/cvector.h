@@ -51,7 +51,7 @@ public:
   // Default Constructor
   CVector(size_t dim) : m_dim(dim)
   {
-      m_ptVector = malloc(dim * sizeof(T));
+      m_ptVector = (T*) malloc(m_dim * sizeof(T));
       m_type = EVectorTypes::None;
   }
 
@@ -70,7 +70,10 @@ public:
   CVector(const CVector<T> &vec);
 
   // Destructor
-  ~CVector();
+  ~CVector()
+  {
+    delete [] m_ptVector;
+  }
 
   // ================================================
   // [PUBLIC] OPERATORS

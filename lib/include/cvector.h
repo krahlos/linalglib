@@ -38,7 +38,7 @@ private:
   // [PRIVATE] MEMBER
   // ================================================
 
-  T *m_ptVector;
+  T *m_ptData;
   size_t m_dim;
 
   EVectorTypes m_type;
@@ -51,7 +51,7 @@ public:
   // Default Constructor
   CVector(size_t dim) : m_dim(dim)
   {
-      m_ptVector = (T*) malloc(m_dim * sizeof(T));
+      m_ptData = (T*) malloc(m_dim * sizeof(T));
       m_type = EVectorTypes::None;
   }
 
@@ -63,16 +63,19 @@ public:
   // Constructor to initialize the Vector directly
   CVector(T &ptVector, size_t dim) : m_dim(dim)
   {
-      m_ptVector = ptVector;
+      m_ptData = ptVector;
   }
 
   // Copy Constructor
-  CVector(const CVector<T> &vec);
+  CVector(const CVector<T> &vec)
+  {
+    this = &vec;
+  }
 
   // Destructor
   ~CVector()
   {
-    delete [] m_ptVector;
+    delete [] m_ptData;
   }
 
   // ================================================
@@ -84,7 +87,7 @@ public:
   {
       if(this != &vec)
       {
-          delete [] m_ptVector;
+          delete [] m_ptData;
           copy(vec);
       }
 
@@ -96,7 +99,7 @@ public:
       if (idx > m_dim)
           throw std::out_of_range("Index out of range.");
 
-      return m_ptVector[idx];
+      return m_ptData[idx];
   }
 
   T operator()(size_t idx) const
@@ -104,7 +107,7 @@ public:
       if (idx > m_dim)
           throw std::out_of_range("Index out of range.");
 
-      return m_ptVector[idx];
+      return m_ptData[idx];
   }
 
   bool operator==(const CVector<T> &vec) const
@@ -116,7 +119,7 @@ public:
 
       for (size_t i = 0; i < m_dim; i++)
       {
-          if (m_ptVector[i] != vec.m_ptVector[i])
+          if (m_ptData[i] != vec.m_ptData[i])
           {
               return false;
           }
@@ -139,7 +142,7 @@ public:
 
       for(size_t i = 0; i < m_dim; i++)
       {
-          tmp.m_ptVector[i] += vec.m_ptVector[i];
+          tmp.m_ptData[i] += vec.m_ptData[i];
       }
 
       return tmp;
@@ -152,7 +155,7 @@ public:
       
       for(size_t i = 0; i < m_dim; i++)
       {
-          m_ptVector[i] += vec.m_ptVector[i];
+          m_ptData[i] += vec.m_ptData[i];
       }
 
       return *this;
@@ -167,7 +170,7 @@ public:
 
       for(size_t i = 0; i < m_dim; i++)
       {
-          tmp.m_ptVector[i] -= vec.m_ptVector[i];
+          tmp.m_ptData[i] -= vec.m_ptData[i];
       }
 
       return tmp;
@@ -180,7 +183,7 @@ public:
       
       for(size_t i = 0; i < m_dim; i++)
       {
-          m_ptVector[i] -= vec.m_ptVector[i];
+          m_ptData[i] -= vec.m_ptData[i];
       }
 
       return *this;
@@ -195,7 +198,7 @@ public:
       T product(0.0);
 
       for (size_t i = 0; i < m_dim; i++)
-          product += m_ptVector[i] * vec.m_ptVector[i];
+          product += m_ptData[i] * vec.m_ptData[i];
 
       return product;
   }
@@ -204,7 +207,7 @@ public:
   CVector<T> &operator*(const T &vec)
   {
       for (size_t i = 0; i < m_dim; i++)
-          m_ptVector[i] = vec * m_ptVector[i];
+          m_ptData[i] = vec * m_ptData[i];
 
       return *this;
   }
@@ -216,9 +219,9 @@ public:
       
       CVector<T> tmp(*this);
 
-      tmp.m_ptVector[0] = tmp.m_ptVector[2]*vec.m_ptVector[3] - tmp.vec.m_ptVector[3]*m_ptVector[2];
-      tmp.m_ptVector[1] = tmp.m_ptVector[3]*vec.m_ptVector[1] - tmp.vec.m_ptVector[1]*m_ptVector[3];
-      tmp.m_ptVector[2] = tmp.m_ptVector[1]*vec.m_ptVector[2] - tmp.vec.m_ptVector[2]*m_ptVector[1];
+      tmp.m_ptData[0] = tmp.m_ptData[2]*vec.m_ptData[3] - tmp.vec.m_ptData[3]*m_ptData[2];
+      tmp.m_ptData[1] = tmp.m_ptData[3]*vec.m_ptData[1] - tmp.vec.m_ptData[1]*m_ptData[3];
+      tmp.m_ptData[2] = tmp.m_ptData[1]*vec.m_ptData[2] - tmp.vec.m_ptData[2]*m_ptData[1];
 
       return tmp;
   }
@@ -228,9 +231,9 @@ public:
       if (m_dim != 3 || vec.m_dim != 3)
           throw std::range_error("Only defined for 3D vectors");
       
-      m_ptVector[0] = m_ptVector[2]*vec.m_ptVector[3] - vec.m_ptVector[3]*m_ptVector[2];
-      m_ptVector[1] = m_ptVector[3]*vec.m_ptVector[1] - vec.m_ptVector[1]*m_ptVector[3];
-      m_ptVector[2] = m_ptVector[1]*vec.m_ptVector[2] - vec.m_ptVector[2]*m_ptVector[1];
+      m_ptData[0] = m_ptData[2]*vec.m_ptData[3] - vec.m_ptData[3]*m_ptData[2];
+      m_ptData[1] = m_ptData[3]*vec.m_ptData[1] - vec.m_ptData[1]*m_ptData[3];
+      m_ptData[2] = m_ptData[1]*vec.m_ptData[2] - vec.m_ptData[2]*m_ptData[1];
 
       return *this;
   }
@@ -239,28 +242,46 @@ public:
   // [PUBLIC] FUNCTIONS
   // ================================================
 
-  size_t getDim() const { return m_dim; }
+  size_t get_dim() const { return m_dim; }
 
-  EVectorTypes getType() const { return m_type; }
+  EVectorTypes get_type() const { return m_type; }
 
   void show()
   {
-    std::cout << this->toString() << std::endl;
+    std::cout << this->to_string() << std::endl;
   }
 
-  std::string toString()
+  std::string to_string()
   {
     std::string str = "[";
 
-    for (size_t i = 0; i < m_dim; i++)
-        str += m_ptVector[i];
+    for (size_t i = 0; i < m_dim; i++){
+        str += std::to_string(m_ptData[i]);
+        if (i < m_dim - 1)
+            str += " ";
+    }
+
 
     str += "]";
 
     return str;
   }
 
-  void set_value(size_t idx, T value);
+  void set_value(size_t idx, T value) 
+  { 
+    if (idx < 0 ||  idx > m_dim)
+      throw std::out_of_range("Index out of range.");
+
+    m_ptData[idx] = value;
+  }
+
+  T get_value(size_t idx)
+  { 
+    if (idx < 0 ||  idx > m_dim)
+      throw std::out_of_range("Index out of range.");
+    
+    return m_ptData[idx]; 
+  }
 
   // ================================================
   // [PUBLIC] MATHEMATICAL FUNCTIONS
@@ -275,17 +296,17 @@ public:
     {
     case EVectorNorms::L1:
         for (size_t i = 0; i < m_dim; i++)
-            result += abs(m_ptVector[i]);
+            result += abs(m_ptData[i]);
         break;
 
     case EVectorNorms::L2:
         for (size_t i = 0; i < m_dim; i++)
-            result += pow(m_ptVector[i], 2);
+            result += pow(m_ptData[i], 2);
         result = sqrt(result);
         break;
 
     case EVectorNorms::MaxNorm:
-        result = max(m_ptVector);
+        result = max(m_ptData);
         break;
     }
 

@@ -1,6 +1,6 @@
 
 # System
-.vscode/*
+.vscode/settings.json
 linalglib.code-workspace
 
 # Repo excludes

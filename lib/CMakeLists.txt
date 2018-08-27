@@ -8,9 +8,9 @@ set(LIB_HEADER_FILES
 set(LIB_SOURCE_FILES
     ${LIB_SOURCE_PATH}/cmatrix.cpp)
 
-add_library(LinAlg ${LIB_HEADER_FILES} ${LIB_SOURCE_FILES})
+add_library(linalg ${LIB_HEADER_FILES} ${LIB_SOURCE_FILES})
 
-target_include_directories(LinAlg
+target_include_directories(linalg
     PUBLIC 
         $<INSTALL_INTERFACE:include>    
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -18,4 +18,4 @@ target_include_directories(LinAlg
         ${CMAKE_CURRENT_SOURCE_DIR}/source
 )
  
-target_compile_options(LinAlg PRIVATE -Wall -pedantic -Werror -Wextra)
+target_compile_options(linalg PRIVATE -Wall -pedantic -Werror -Wextra)

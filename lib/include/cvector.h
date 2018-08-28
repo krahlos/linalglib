@@ -84,7 +84,7 @@ public:
   }
 
   // Destructor
-  ~CVector()
+  virtual ~CVector()
   {
     delete [] m_ptData;
   }
@@ -253,11 +253,45 @@ public:
   // [PUBLIC] FUNCTIONS
   // ================================================
 
-  size_t get_dim() const { return m_dim; }
+  // GETTER
+  // ------------------------------------------------
 
-  EVectorTypes get_type() const { return m_type; }
+  size_t get_dim () const
+  { 
+      return m_dim; 
+  }
 
-  T* get_data() const { return m_ptData; }
+  EVectorTypes get_type () const
+  { 
+      return m_type; 
+  }
+
+  T* get_data () const
+  { 
+      return m_ptData; 
+  }
+
+  T get_data (size_t idx) const
+  { 
+    if (idx < 0 ||  idx > m_dim)
+      throw std::out_of_range("Index out of range.");
+    
+    return m_ptData[idx]; 
+  }
+
+  // SETTER
+  // ------------------------------------------------
+
+  void set_data(size_t idx, T value) 
+  { 
+    if (idx < 0 ||  idx > m_dim)
+      throw std::out_of_range("Index out of range.");
+
+    m_ptData[idx] = value;
+  }
+
+  // MISCELLANEOUS
+  // ------------------------------------------------
 
   void show()
   {
@@ -278,22 +312,6 @@ public:
     str += "]";
 
     return str;
-  }
-
-  void set_value(size_t idx, T value) 
-  { 
-    if (idx < 0 ||  idx > m_dim)
-      throw std::out_of_range("Index out of range.");
-
-    m_ptData[idx] = value;
-  }
-
-  T get_value(size_t idx)
-  { 
-    if (idx < 0 ||  idx > m_dim)
-      throw std::out_of_range("Index out of range.");
-    
-    return m_ptData[idx]; 
   }
 
   // ================================================

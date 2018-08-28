@@ -51,7 +51,12 @@ public:
   // Default Constructor
   CVector(size_t dim) : m_dim(dim)
   {
-      m_ptData = (T*) malloc(m_dim * sizeof(T));
+      //m_ptData = (T*) malloc(m_dim * sizeof(T));
+      m_ptData = new T[m_dim];
+      for (size_t i = 0; i < m_dim; i++)
+      {
+          m_ptData[i] = T(0.0);
+      }
       m_type = EVectorTypes::None;
   }
 

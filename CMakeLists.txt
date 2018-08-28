@@ -15,5 +15,6 @@ project(linalglib
     LANGUAGES CXX
     ) 
 
+add_subdirectory(googletest)
 add_subdirectory(lib)
-add_subdirectory(main)
+add_subdirectory(test)

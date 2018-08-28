@@ -84,7 +84,7 @@ public:
   }
 
   // Destructor
-  ~CVector()
+  virtual ~CVector()
   {
     delete [] m_ptData;
   }

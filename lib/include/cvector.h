@@ -74,7 +74,13 @@ public:
   // Copy Constructor
   CVector(const CVector<T> &vec)
   {
-    this = &vec;
+      m_dim = vec.m_dim;
+      m_ptData = (T*) malloc(m_dim * sizeof(T));
+      for (size_t i = 0; i < m_dim; i++)
+      {
+          m_ptData[i] = vec.m_ptData[i];
+      }
+      m_type = vec.m_type;
   }
 
   // Destructor

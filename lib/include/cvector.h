@@ -107,7 +107,7 @@ public:
       if (idx > m_dim)
           throw std::out_of_range("Index out of range.");
 
-      return m_ptData[idx];
+      return m_ptData->at(idx);
   }
 
   T operator()(size_t idx) const
@@ -115,7 +115,7 @@ public:
       if (idx > m_dim)
           throw std::out_of_range("Index out of range.");
 
-      return m_ptData[idx];
+      return m_ptData->at(idx);
   }
 
   bool operator==(const CVector<T> &rhs) const
@@ -127,7 +127,7 @@ public:
 
       for (size_t i = 0; i < m_dim; i++)
       {
-          if (m_ptData[i] != rhs.m_ptData[i])
+          if (m_ptData->at(i) != rhs.m_ptData->at(i))
           {
               return false;
           }
@@ -150,7 +150,7 @@ public:
 
       for(size_t i = 0; i < m_dim; i++)
       {
-          tmp.m_ptData[i] += rhs.m_ptData[i];
+          tmp.m_ptData->at(i) += rhs.m_ptData->at(i);
       }
 
       return tmp;
@@ -163,7 +163,7 @@ public:
       
       for(size_t i = 0; i < m_dim; i++)
       {
-          m_ptData[i] += rhs.m_ptData[i];
+          m_ptData->at(i) += rhs.m_ptData->at(i);
       }
 
       return *this;
@@ -178,7 +178,7 @@ public:
 
       for(size_t i = 0; i < m_dim; i++)
       {
-          tmp.m_ptData[i] -= rhs.m_ptData[i];
+          tmp.m_ptData->at(i) -= rhs.m_ptData->at(i);
       }
 
       return tmp;
@@ -191,7 +191,7 @@ public:
       
       for(size_t i = 0; i < m_dim; i++)
       {
-          m_ptData[i] -= rhs.m_ptData[i];
+          m_ptData->at(i) -= rhs.m_ptData->at(i);
       }
 
       return *this;
@@ -203,19 +203,19 @@ public:
       if (m_dim != rhs.m_dim)
           throw std::range_error("Dimensions must be the same");
       
-      T product(0.0);
+      T dot_product(0.0);
 
       for (size_t i = 0; i < m_dim; i++)
-          product += m_ptData[i] * rhs.m_ptData[i];
+          dot_product += m_ptData->at(i) * rhs.m_ptData->at(i);
 
-      return product;
+      return dot_product;
   }
 
   // scaling
-  CVector<T> &operator*(const T &rhs)
+  CVector<T> &operator*(const T &scalar)
   {
       for (size_t i = 0; i < m_dim; i++)
-          m_ptData[i] = rhs * m_ptData[i];
+          m_ptData->at(i) = scalar * m_ptData->at(i);
 
       return *this;
   }
@@ -227,9 +227,9 @@ public:
       
       CVector<T> tmp(*this);
 
-      tmp.m_ptData[0] = tmp.m_ptData[2]*rhs.m_ptData[3] - tmp.rhs.m_ptData[3]*m_ptData[2];
-      tmp.m_ptData[1] = tmp.m_ptData[3]*rhs.m_ptData[1] - tmp.rhs.m_ptData[1]*m_ptData[3];
-      tmp.m_ptData[2] = tmp.m_ptData[1]*rhs.m_ptData[2] - tmp.rhs.m_ptData[2]*m_ptData[1];
+      tmp.m_ptData->at(0) = tmp.m_ptData->at(1)*rhs.m_ptData->at(2) - tmp.rhs.m_ptData->at(2)*m_ptData->at(1);
+      tmp.m_ptData->at(1) = tmp.m_ptData->at(2)*rhs.m_ptData->at(0) - tmp.rhs.m_ptData->at(0)*m_ptData->at(2);
+      tmp.m_ptData->at(2) = tmp.m_ptData->at(0)*rhs.m_ptData->at(1) - tmp.rhs.m_ptData->at(1)*m_ptData->at(0);
 
       return tmp;
   }
@@ -239,9 +239,9 @@ public:
       if (m_dim != 3 || rhs.m_dim != 3)
           throw std::range_error("Only defined for 3D vectors");
       
-      m_ptData[0] = m_ptData[2]*rhs.m_ptData[3] - rhs.m_ptData[3]*m_ptData[2];
-      m_ptData[1] = m_ptData[3]*rhs.m_ptData[1] - rhs.m_ptData[1]*m_ptData[3];
-      m_ptData[2] = m_ptData[1]*rhs.m_ptData[2] - rhs.m_ptData[2]*m_ptData[1];
+      m_ptData->at(0) = m_ptData->at(1)*rhs.m_ptData->at(2) - rhs.m_ptData->at(2)*m_ptData->at(1);
+      m_ptData->at(1) = m_ptData->at(2)*rhs.m_ptData->at(0) - rhs.m_ptData->at(0)*m_ptData->at(2);
+      m_ptData->at(2) = m_ptData->at(0)*rhs.m_ptData->at(1) - rhs.m_ptData->at(1)*m_ptData->at(0);
 
       return *this;
   }
@@ -284,7 +284,7 @@ public:
     if (idx < 0 ||  idx > m_dim)
       throw std::out_of_range("Index out of range.");
 
-    m_ptData[idx] = value;
+    m_ptData->at(idx) = value;
   }
 
   // MISCELLANEOUS
@@ -324,12 +324,12 @@ public:
     {
     case EVectorNorms::L1:
         for (size_t i = 0; i < m_dim; i++)
-            result += abs(m_ptData[i]);
+            result += abs(m_ptData->at(i));
         break;
 
     case EVectorNorms::L2:
         for (size_t i = 0; i < m_dim; i++)
-            result += pow(m_ptData[i], 2);
+            result += pow(m_ptData->at(i), 2);
         result = sqrt(result);
         break;
 

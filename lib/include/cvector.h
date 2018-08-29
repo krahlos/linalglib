@@ -4,6 +4,7 @@
 #include <math.h>
 #include <iostream>
 #include <string>
+#include <vector>
 
 namespace LinAlg
 {
@@ -38,7 +39,7 @@ private:
   // [PRIVATE] MEMBER
   // ================================================
 
-  T *m_ptData;
+  std::vector<T>* m_ptData;
   size_t m_dim;
 
   EVectorTypes m_type;
@@ -51,12 +52,7 @@ public:
   // Default Constructor
   CVector(size_t dim) : m_dim(dim)
   {
-      //m_ptData = (T*) malloc(m_dim * sizeof(T));
-      m_ptData = new T[m_dim];
-      for (size_t i = 0; i < m_dim; i++)
-      {
-          m_ptData[i] = T(0.0);
-      }
+      m_ptData = new std::vector<T>(m_dim,T(0.0));
       m_type = EVectorTypes::None;
   }
 
@@ -72,21 +68,21 @@ public:
   }
 
   // Copy Constructor
-  CVector(const CVector<T> &vec)
+  CVector(const CVector<T> &rhs)
   {
-      m_dim = vec.m_dim;
-      m_ptData = (T*) malloc(m_dim * sizeof(T));
-      for (size_t i = 0; i < m_dim; i++)
+      this->m_dim = rhs.get_dim();
+      this->m_ptData = new std::vector<T>();
+      for (size_t i = 0; i < this->m_dim; i++)
       {
-          m_ptData[i] = vec.m_ptData[i];
+          this->m_ptData->push_back(rhs.get_data(i));
       }
-      m_type = vec.m_type;
+      this->m_type = rhs.get_type();
   }
 
   // Destructor
   virtual ~CVector()
   {
-    delete [] m_ptData;
+    delete m_ptData;
   }
 
   // ================================================
@@ -94,14 +90,15 @@ public:
   // ================================================
 
   // copy assignment operator
-  CVector<T> &operator=(const CVector<T> &vec)
+  CVector<T> &operator=(const CVector<T> &rhs)
   {
-      if(this != &vec)
+      this->m_dim = rhs.get_dim();
+      this->m_ptData = new std::vector<T>();
+      for (size_t i = 0; i < this->m_dim; i++)
       {
-          delete [] m_ptData;
-          copy(vec);
+          this->m_ptData->push_back(rhs.get_data(i));
       }
-
+      this->m_type = rhs.get_type();
       return *this;
   }
 
@@ -121,16 +118,16 @@ public:
       return m_ptData[idx];
   }
 
-  bool operator==(const CVector<T> &vec) const
+  bool operator==(const CVector<T> &rhs) const
   {
-      if ((m_dim != vec.m_dim))
+      if ((m_dim != rhs.m_dim))
       {
           return false;
       }
 
       for (size_t i = 0; i < m_dim; i++)
       {
-          if (m_ptData[i] != vec.m_ptData[i])
+          if (m_ptData[i] != rhs.m_ptData[i])
           {
               return false;
           }
@@ -139,112 +136,112 @@ public:
       return true;
   }
 
-  bool operator!=(const CVector<T> &vec) const
+  bool operator!=(const CVector<T> &rhs) const
   {
-      return !((*this) == vec);
+      return !((*this) == rhs);
   }
 
-  CVector<T> operator+(const CVector<T> &vec)
+  CVector<T> operator+(const CVector<T> &rhs)
   {
-      if (m_dim != vec.m_dim)
+      if (m_dim != rhs.m_dim)
           throw std::range_error("Dimensions must be the same");
 
       CVector<T> tmp(*this);
 
       for(size_t i = 0; i < m_dim; i++)
       {
-          tmp.m_ptData[i] += vec.m_ptData[i];
+          tmp.m_ptData[i] += rhs.m_ptData[i];
       }
 
       return tmp;
   }
 
-  CVector<T> &operator+=(const CVector<T> &vec)
+  CVector<T> &operator+=(const CVector<T> &rhs)
   {
-      if (m_dim != vec.m_dim)
+      if (m_dim != rhs.m_dim)
           throw std::range_error("Dimensions must be the same");
       
       for(size_t i = 0; i < m_dim; i++)
       {
-          m_ptData[i] += vec.m_ptData[i];
+          m_ptData[i] += rhs.m_ptData[i];
       }
 
       return *this;
   }
 
-  CVector<T> operator-(const CVector<T> &vec)
+  CVector<T> operator-(const CVector<T> &rhs)
   {
-      if (m_dim != vec.m_dim)
+      if (m_dim != rhs.m_dim)
           throw std::range_error("Dimensions must be the same");
 
       CVector<T> tmp(*this);
 
       for(size_t i = 0; i < m_dim; i++)
       {
-          tmp.m_ptData[i] -= vec.m_ptData[i];
+          tmp.m_ptData[i] -= rhs.m_ptData[i];
       }
 
       return tmp;
   }
 
-  CVector<T> &operator-=(const CVector<T> &vec)
+  CVector<T> &operator-=(const CVector<T> &rhs)
   {
-      if (m_dim != vec.m_dim)
+      if (m_dim != rhs.m_dim)
           throw std::range_error("Dimensions must be the same");
       
       for(size_t i = 0; i < m_dim; i++)
       {
-          m_ptData[i] -= vec.m_ptData[i];
+          m_ptData[i] -= rhs.m_ptData[i];
       }
 
       return *this;
   }
 
   // scalar / dot product
-  T operator*(const CVector<T> &vec)
+  T operator*(const CVector<T> &rhs)
   {
-      if (m_dim != vec.m_dim)
+      if (m_dim != rhs.m_dim)
           throw std::range_error("Dimensions must be the same");
       
       T product(0.0);
 
       for (size_t i = 0; i < m_dim; i++)
-          product += m_ptData[i] * vec.m_ptData[i];
+          product += m_ptData[i] * rhs.m_ptData[i];
 
       return product;
   }
 
   // scaling
-  CVector<T> &operator*(const T &vec)
+  CVector<T> &operator*(const T &rhs)
   {
       for (size_t i = 0; i < m_dim; i++)
-          m_ptData[i] = vec * m_ptData[i];
+          m_ptData[i] = rhs * m_ptData[i];
 
       return *this;
   }
 
-  CVector<T> operator^(const CVector<T> &vec)
+  CVector<T> operator^(const CVector<T> &rhs)
   {
-      if (m_dim != 3 || vec.m_dim != 3)
+      if (m_dim != 3 || rhs.m_dim != 3)
           throw std::range_error("Only defined for 3D vectors");
       
       CVector<T> tmp(*this);
 
-      tmp.m_ptData[0] = tmp.m_ptData[2]*vec.m_ptData[3] - tmp.vec.m_ptData[3]*m_ptData[2];
-      tmp.m_ptData[1] = tmp.m_ptData[3]*vec.m_ptData[1] - tmp.vec.m_ptData[1]*m_ptData[3];
-      tmp.m_ptData[2] = tmp.m_ptData[1]*vec.m_ptData[2] - tmp.vec.m_ptData[2]*m_ptData[1];
+      tmp.m_ptData[0] = tmp.m_ptData[2]*rhs.m_ptData[3] - tmp.rhs.m_ptData[3]*m_ptData[2];
+      tmp.m_ptData[1] = tmp.m_ptData[3]*rhs.m_ptData[1] - tmp.rhs.m_ptData[1]*m_ptData[3];
+      tmp.m_ptData[2] = tmp.m_ptData[1]*rhs.m_ptData[2] - tmp.rhs.m_ptData[2]*m_ptData[1];
 
       return tmp;
   }
 
-  CVector<T> &operator^=(const CVector<T> &vec)
+  CVector<T> &operator^=(const CVector<T> &rhs)
   {
-      if (m_dim != 3 || vec.m_dim != 3)
+      if (m_dim != 3 || rhs.m_dim != 3)
           throw std::range_error("Only defined for 3D vectors");
       
-      m_ptData[0] = m_ptData[2]*vec.m_ptData[3] - vec.m_ptData[3]*m_ptData[2];
-      m_ptData[1] = m_ptData[3]*vec.m_ptData[1] - vec.m_ptData[1]*m_ptData[3];
-      m_ptData[2] = m_ptData[1]*vec.m_ptData[2] - vec.m_ptData[2]*m_ptData[1];
+      m_ptData[0] = m_ptData[2]*rhs.m_ptData[3] - rhs.m_ptData[3]*m_ptData[2];
+      m_ptData[1] = m_ptData[3]*rhs.m_ptData[1] - rhs.m_ptData[1]*m_ptData[3];
+      m_ptData[2] = m_ptData[1]*rhs.m_ptData[2] - rhs.m_ptData[2]*m_ptData[1];
 
       return *this;
   }
@@ -266,7 +263,7 @@ public:
       return m_type; 
   }
 
-  T* get_data () const
+  std::vector<T>* get_data () const
   { 
       return m_ptData; 
   }
@@ -276,7 +273,7 @@ public:
     if (idx < 0 ||  idx > m_dim)
       throw std::out_of_range("Index out of range.");
     
-    return m_ptData[idx]; 
+    return m_ptData->at(idx); 
   }
 
   // SETTER
@@ -303,7 +300,7 @@ public:
     std::string str = "[";
 
     for (size_t i = 0; i < m_dim; i++){
-        str += std::to_string(m_ptData[i]);
+        str += std::to_string(m_ptData->at(i));
         if (i < m_dim - 1)
             str += " ";
     }
@@ -344,9 +341,9 @@ public:
     return result;
   }
 
-  float angle_to(const CVector<T> &vec);
+  float angle_to(const CVector<T> &rhs);
 
-  bool is_orthogonal_to(const CVector<T> &vec);
+  bool is_orthogonal_to(const CVector<T> &rhs);
 };
 
 } // namespace Vector
